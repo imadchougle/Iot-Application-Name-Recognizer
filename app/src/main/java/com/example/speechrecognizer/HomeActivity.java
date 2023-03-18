@@ -3,9 +3,11 @@ import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Build;
 import android.os.VibrationEffect;
+import androidx.appcompat.app.AlertDialog;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Vibrator;
+import android.content.DialogInterface;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -101,10 +103,20 @@ public class HomeActivity extends AppCompatActivity {
                 loadingAnim.setVisibility(View.INVISIBLE);
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
 
 
                 ArrayList<String> result = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                String str = result.get(0).toString();
+                String find = "Durva" ;
+                String find1 = "Balaji";
+                String find2 = "Aishwarya";
+                int i = str.indexOf(find);
+                int j = str.indexOf(find1);
+                int k = str.indexOf(find2);
+
                 if (result != null && result.size() > 0) {
+
                     if (Build.VERSION.SDK_INT >= 26 && result.get(0).toString().equals("Balaji"))
                     {
                         vibrator.vibrate(VibrationEffect.createOneShot(1200, VibrationEffect.DEFAULT_AMPLITUDE));
@@ -124,10 +136,46 @@ public class HomeActivity extends AppCompatActivity {
                         toneGen1.startTone(ToneGenerator.TONE_CDMA_EMERGENCY_RINGBACK,400);
                         startSpeechRecognition();
                         onBeginningOfSpeech();}
-                    else {
-                        txt.setText("Sorry "+result.get(0).toString()+" You are not in our Database");
-                        txt.setTextColor(Color.WHITE);
+
+                    else if(result != null && result.size() > 0 && i>0 && Build.VERSION.SDK_INT >= 26){
+
+                        vibrator.vibrate(VibrationEffect.createOneShot(1200, VibrationEffect.DEFAULT_AMPLITUDE));
+                        toneGen1.startTone(ToneGenerator.TONE_CDMA_CALL_SIGNAL_ISDN_INTERGROUP,400);
+                        startSpeechRecognition();
+                        onBeginningOfSpeech();
+
                     }
+
+                    else if(result != null && result.size() > 0 && j>0 && Build.VERSION.SDK_INT >= 26){
+
+                        vibrator.vibrate(VibrationEffect.createOneShot(1200, VibrationEffect.DEFAULT_AMPLITUDE));
+                        toneGen1.startTone(ToneGenerator.TONE_CDMA_CALL_SIGNAL_ISDN_INTERGROUP,400);
+                        startSpeechRecognition();
+                        onBeginningOfSpeech();
+
+                    }
+
+                    else if(result != null && result.size() > 0 && k>0 && Build.VERSION.SDK_INT >= 26){
+
+                        vibrator.vibrate(VibrationEffect.createOneShot(1200, VibrationEffect.DEFAULT_AMPLITUDE));
+                        toneGen1.startTone(ToneGenerator.TONE_CDMA_CALL_SIGNAL_ISDN_INTERGROUP,400);
+                        startSpeechRecognition();
+                        onBeginningOfSpeech();
+
+                    }
+
+                    else {
+                        builder.setMessage("Sorry "+result.get(0).toString()+" You are not in our Database");
+                        builder.setTitle("Alert !");
+                        builder.setPositiveButton("Retry", (DialogInterface.OnClickListener) (dialog, which) -> {
+                            startSpeechRecognition();
+                            onBeginningOfSpeech();
+                        });
+                              }
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+
+
 
                 }
             }
