@@ -1,6 +1,7 @@
 # Iot-Application-Name-Recognizer
 
-Abstract:
+### Abstract:
+
 A real time Name Recognizer application when started the app it automatically goes into the listening mode and it listens for a particular name stored in the memory until that name is called. Once the Name is matched the phone starts vibrating. 
 
 They way of this concept function is when a user speaks out a name then the voice is captures through microphone as the input device. 
